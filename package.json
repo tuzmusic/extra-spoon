@@ -1,12 +1,8 @@
 {
-    "name": "express-typescript-starter",
+    "name": "spoontacular",
     "version": "0.1.0",
-    "description": "A starting point for Node.js express apps with TypeScript",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/Microsoft/TypeScript-Node-Starter"
-    },
-    "author": "Bowden Kelly",
+    "description": "Some added features for the spoonacular API",
+    "author": "Jonathan Tuzman",
     "license": "MIT",
     "scripts": {
         "debug": "tsc && npm run watch-debug",
@@ -24,6 +20,7 @@
         "@types/node": "^12.7.8",
         "@types/nodemailer": "^6.2.1",
         "@typescript-eslint/eslint-plugin": "^2.3.1",
+        "@typescript-eslint/parser": "^4.8.2",
         "chai": "^4.2.0",
         "eslint": "^6.4.0",
         "jest": "^24.9.0",
