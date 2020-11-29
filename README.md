@@ -14,9 +14,13 @@ Once that task, and any others, are complete, there needs to be a way to get bac
 recipe website --> spoontacular --> anylist
 
 ## Tasks
-- [ ] Split recipe steps by sentences 
+- [X] Split recipe steps by sentences 
 - [ ] Output a resource that can be fed back into the Spoonacular API to be reparsed. This probably means posting an HTML page.
 - [ ] Create a modified Chrome extension that feeds a website through our middleware and then submits the result to the AnyList extension. 
+- [ ] Consider further splits
+    - All commas
+    - "and"
+    - ", then"
 
 ### How might this be accomplished?
 We could do all the work in HTML. We could pull down the page, and then do our find-replace directly. 
@@ -33,6 +37,6 @@ Or we could do all the work with the parsed data.
 
 Initially, the first approach seems wisest, because we have to end up with HTML anyway (though I'd be surprised if there's not a better final step that doesn't require reconstructing the HTML; but would it get us to the final AnyList input?).
 
-But there may be other things we want to do. For instance, my in-progress app (or, rather, its even more in-progress backend) also takes the timers from the Spoonacular output (which AnyList ignores). However! If we're just feeding it back to HTML, we're not actually adding any information that Spoonacular doesn't already get (in the case of timers) -- that is, we're not changing the actualy HTML.
+But there may be other things we want to do. For instance, my in-progress app (or, rather, its even more in-progress backend) also takes the timers from the Spoonacular output (which AnyList ignores). However! If we're just feeding it back to HTML, we're not actually adding any information that Spoonacular doesn't already get (in the case of timers) -- that is, we're not changing the actual HTML.
 
 Maybe we'll go with the HTML route first anyway. Just for fun, I guess.     
