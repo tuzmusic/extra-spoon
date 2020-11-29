@@ -1,3 +1,5 @@
+secrets.*
+
 lib-cov
 *.seed
 *.log
