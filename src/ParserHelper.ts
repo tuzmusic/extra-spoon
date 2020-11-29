@@ -33,24 +33,26 @@ export default class ParserHelper {
    */
   static replaceSteps(html: string, recipe: RecipeJson): cheerio.Cheerio {
     // Spoonacular actually does some splitting of the steps itself.
-    // In our initial test recipe (brownies) the split isn't perfect enough.
-    // So we'll do our own splits.
+    // In our initial test recipe (brownies) the split isn't perfect enough,
+    // so we'll do our own splits.
     const textSteps = this.splitIntoSentences(recipe.instructions);
-    
+  
     // Find the HTML element that contains the steps.
     // We'll replace its contents with our split steps.
     const jsonSteps = recipe.analyzedInstructions[0].steps;
     const firstStepText = jsonSteps[0].step;
     const words = firstStepText.split(' ');
     // TODO: we're using the first word, and contains.
-    //  In case multiple li's contain that word, we should
-    //  add a word until there's only one result.
+    //  This could return an incorrect element (and it only returns one element, BTW).
+    //  We should check a few words into the step once we find an element.
+    //  Note that there might be some issues with special characters, which
+    //  is why we don't search for the full text of the step in the first place.
     const firstStep = cheerio.load(html)(`li:contains("${ words[0] }")`);
     const stepsContainer = firstStep.parent();
-    
+  
     stepsContainer.empty();
     textSteps.forEach(step => stepsContainer.append(`<li>${ step }</li>`));
-    
+  
     return stepsContainer;
   }
 }

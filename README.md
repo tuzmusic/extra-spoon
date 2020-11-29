@@ -1,4 +1,4 @@
-# "Spoontacular"
+# `extra-spoon`
 *Various added features for the Spoonacular recipes API*
 
 ---

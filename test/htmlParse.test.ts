@@ -2,6 +2,7 @@ import arrayContaining = jasmine.arrayContaining;
 import { parseStep } from '../src/app';
 import SpoontacularParser from '../src/SpoontacularParser';
 import ParserHelper from '../src/ParserHelper';
+import brownies from './fixtures/brownies';
 
 const checkParsedArray = (step: string, expected: string[]) => {
   const result = parseStep(step);
@@ -13,26 +14,51 @@ describe('HTML Parsing', () => {
   const { parser, html, originalJson } = SpoontacularParser.createMock();
   
   describe('Finding the list items in the page', () => {
-    let result: cheerio.Cheerio;
-    beforeAll(() => result = ParserHelper.replaceSteps(html, originalJson));
-  
-    it('Returns the original steps as an array of the correct length', () => {
-      expect(result).toHaveLength(4);
+    let stepsContainer: cheerio.Cheerio;
+    beforeAll(() => {
+      const textSteps = [
+        `One step. One more step.`,
+        `Second step.`,
+        `Third step! Second part.`,
+        `Last step? But then add 1000 tsp. of sugar and 3 lbs. of chocolate. Enjoy.`,
+      ];
+    
+      const htmlSteps = [`<ul>`, ...textSteps.map(s => `<li>${ s }</li>`), '</ul>'];
+      const mockHtml = htmlSteps.join('');
+    
+      // get an object that fits the type
+      const mockRecipe = { ...brownies };
+      // Provide the instructions
+      mockRecipe.instructions = textSteps.join(' ');
+      // Provide the first step in the detailed instructions,
+      // which is used by the replaceSteps function.
+      mockRecipe.analyzedInstructions[0].steps[0].step = 'One step.';
+    
+      stepsContainer = ParserHelper.replaceSteps(mockHtml, mockRecipe);
     });
   
-    /*
-        it('Contains the correct steps, basically', () => {
-          expect(result[0].startsWith('Position a rack'))
-          expect(result[1].startsWith('Combine the butter'))
-          expect(result[2].startsWith('Stir in the vanilla'))
-          expect(result[3].startsWith('Bake until a toothpick'))
-          
-          expect(result[0].endsWith('cooking spray and set aside.'))
-          expect(result[1].endsWith('the other ingredients are added.'))
-          expect(result[2].endsWith('Spread evenly in the lined pan.'))
-          expect(result[3].endsWith('Cut into squares and serve.'))
-        });
-    */
+    it('Returns the original steps as an array of the correct length', () => {
+      expect(stepsContainer.children()).toHaveLength(8);
+    });
+  
+    it('Contains li tags with the correct steps.', () => {
+      const expectedSteps = [
+        'One step.',
+        'One more step.',
+        'Second step.',
+        'Third step!',
+        'Second part.',
+        'Last step?',
+        'But then add 1000 tsp. of sugar and 3 lbs. of chocolate.',
+        'Enjoy.',
+      ];
+    
+      stepsContainer.children().each((i, el) => {
+          expect(el.tagName == 'li');
+          expect(el.children[0].data).toEqual(expectedSteps[i]);
+        }
+      );
+    });
   });
   
   describe('Parsing a list item', () => {
@@ -80,7 +106,8 @@ describe('HTML Parsing', () => {
       ];
       checkParsedArray(step, expected);
     });
-    
+  
   });
   
-});
+})
+;

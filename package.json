@@ -1,15 +1,15 @@
 {
-    "name": "spoontacular",
-    "version": "0.1.0",
-    "description": "Some added features for the spoonacular API",
-    "author": "Jonathan Tuzman",
-    "license": "MIT",
-    "scripts": {
-        "debug": "tsc && npm run watch-debug",
-        "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix",
-        "test": "jest --forceExit --coverage --verbose",
-        "watch-ts": "tsc -w"
-    },
+  "name": "extra-spoon",
+  "version": "0.1.0",
+  "description": "Some added features for the spoonacular API",
+  "author": "Jonathan Tuzman",
+  "license": "MIT",
+  "scripts": {
+    "debug": "tsc && npm run watch-debug",
+    "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix",
+    "test": "jest --forceExit --coverage --verbose",
+    "watch-ts": "tsc -w"
+  },
     "dependencies": {
         "axios": "^0.21.0",
         "cheerio": "^1.0.0-rc.3",
