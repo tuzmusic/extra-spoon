@@ -1,18 +1,14 @@
 import arrayContaining = jasmine.arrayContaining;
-import { parseStep } from '../src/app';
-import SpoontacularParser from '../src/SpoontacularParser';
 import ParserHelper from '../src/ParserHelper';
 import brownies from './fixtures/brownies';
 
 const checkParsedArray = (step: string, expected: string[]) => {
-  const result = parseStep(step);
+  const result = ParserHelper.parseStringStep(step);
   expect(result).toEqual(arrayContaining(expected));
   expect(result).toHaveLength(expected.length);
 };
 
 describe('HTML Parsing', () => {
-  const { parser, html, originalJson } = SpoontacularParser.createMock();
-  
   describe('Finding the list items in the page', () => {
     let stepsContainer: cheerio.Cheerio;
     beforeAll(() => {
@@ -22,10 +18,10 @@ describe('HTML Parsing', () => {
         `Third step! Second part.`,
         `Last step? But then add 1000 tsp. of sugar and 3 lbs. of chocolate. Enjoy.`,
       ];
-    
+  
       const htmlSteps = [`<ul>`, ...textSteps.map(s => `<li>${ s }</li>`), '</ul>'];
       const mockHtml = htmlSteps.join('');
-    
+  
       // get an object that fits the type
       const mockRecipe = { ...brownies };
       // Provide the instructions
@@ -33,7 +29,7 @@ describe('HTML Parsing', () => {
       // Provide the first step in the detailed instructions,
       // which is used by the replaceSteps function.
       mockRecipe.analyzedInstructions[0].steps[0].step = 'One step.';
-    
+  
       stepsContainer = ParserHelper.replaceSteps(mockHtml, mockRecipe);
     });
   
@@ -97,7 +93,7 @@ describe('HTML Parsing', () => {
       ];
       checkParsedArray(step, expected);
     });
-    
+  
     it('Can handle periods that aren\'t at the end of a sentence (like for abbrevs)', () => {
       const step = `<li>Add 1 tsp. flour and 2 tsp. salt. Add 3 tbsp. oil.</li>`;
       const expected = [
@@ -106,8 +102,5 @@ describe('HTML Parsing', () => {
       ];
       checkParsedArray(step, expected);
     });
-  
   });
-  
-})
-;
+});
