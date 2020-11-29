@@ -1,4 +1,4 @@
-{
+export default recipe = {
   "vegetarian": true,
   "vegan": false,
   "glutenFree": false,
