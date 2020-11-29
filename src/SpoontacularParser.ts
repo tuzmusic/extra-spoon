@@ -4,11 +4,20 @@ import fs from 'fs';
 import brownies from '../test/fixtures/brownies';
 import { RecipeJson } from './recipe.types';
 import * as cheerio from 'cheerio';
+import ParserHelper from './ParserHelper';
 
 export default class SpoontacularParser {
-  private html: string;
   private originalJson: RecipeJson;
   private parsedHtml: cheerio.Root;
+  
+  private _html: string;
+  
+  private get html() { return this._html;}
+  
+  private set html(h: string) {
+    this._html = h;
+    this.parsedHtml = cheerio.load(h);
+  }
   
   /**
    * For testing.
@@ -24,7 +33,6 @@ export default class SpoontacularParser {
     const parser = new SpoontacularParser();
     parser.html = fs.readFileSync('./test/fixtures/brownies.html', 'utf8');
     parser.originalJson = brownies;
-    parser.parsedHtml = cheerio.load(parser.html);
     const { html, originalJson, parsedHtml } = parser;
     return { parser, html, originalJson, parsedHtml };
   }
@@ -40,7 +48,6 @@ export default class SpoontacularParser {
     // get html
     const { data: html } = await axios(url);
     parser.html = html;
-    parser.parsedHtml = cheerio.load(html);
     
     // get spoonacular parsing
     const options: AxiosRequestConfig = {
@@ -52,14 +59,22 @@ export default class SpoontacularParser {
         'x-rapidapi-host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
       }
     };
-    
+  
     const { data } = await axios.request(options);
     parser.originalJson = data;
-    
+  
     return parser;
   }
   
-  public getHtml = () => this.html;
+  public replaceInstructions() {
+    const { newHtml } = ParserHelper.replaceSteps(this.html, this.originalJson);
+    this.html = newHtml;
+  }
   
-  public getOriginalJson = () => this.originalJson;
+  public getHtml() { return this.html; }
+  
+  public getOriginalJson() { return this.originalJson; }
+  
+  public getParsedHtml() { return this.parsedHtml; }
+  
 }

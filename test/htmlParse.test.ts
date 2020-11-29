@@ -1,6 +1,7 @@
 import arrayContaining = jasmine.arrayContaining;
 import ParserHelper from '../src/ParserHelper';
 import brownies from './fixtures/brownies';
+import SpoontacularParser from '../src/SpoontacularParser';
 
 const checkParsedArray = (step: string, expected: string[]) => {
   const result = ParserHelper.parseStringStep(step);
@@ -9,6 +10,18 @@ const checkParsedArray = (step: string, expected: string[]) => {
 };
 
 describe('HTML Parsing', () => {
+  describe('Parser.replaceInstructions', () => {
+    let parser: SpoontacularParser;
+    it('Actually modifies the stored parsed html', () => {
+      parser = SpoontacularParser.createMock().parser;
+      parser.replaceInstructions();
+      const parsed = parser.getParsedHtml();
+      const html = parsed.html();
+      expect(html).not.toContain('<li id="mv_create_638_1">Position a rack');
+      expect(html).toContain('<li>Position a rack');
+    });
+  });
+  
   describe('Finding the list items in the page', () => {
     let stepsContainer: cheerio.Cheerio;
     beforeAll(() => {
@@ -29,8 +42,8 @@ describe('HTML Parsing', () => {
       // Provide the first step in the detailed instructions,
       // which is used by the replaceSteps function.
       mockRecipe.analyzedInstructions[0].steps[0].step = 'One step.';
-  
-      stepsContainer = ParserHelper.replaceSteps(mockHtml, mockRecipe);
+      
+      stepsContainer = ParserHelper.replaceSteps(mockHtml, mockRecipe).stepsContainer;
     });
   
     it('Returns the original steps as an array of the correct length', () => {

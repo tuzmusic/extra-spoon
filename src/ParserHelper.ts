@@ -31,7 +31,10 @@ export default class ParserHelper {
    * @param recipe
    * @return The list's parent element, containing the new steps.
    */
-  static replaceSteps(html: string, recipe: RecipeJson): cheerio.Cheerio {
+  static replaceSteps(html: string, recipe: RecipeJson): {
+    stepsContainer: cheerio.Cheerio; // useful for testing or whatever
+    newHtml: string;
+  } {
     // Spoonacular actually does some splitting of the steps itself.
     // In our initial test recipe (brownies) the split isn't perfect enough,
     // so we'll do our own splits.
@@ -47,12 +50,13 @@ export default class ParserHelper {
     //  We should check a few words into the step once we find an element.
     //  Note that there might be some issues with special characters, which
     //  is why we don't search for the full text of the step in the first place.
-    const firstStep = cheerio.load(html)(`li:contains("${ words[0] }")`);
+    const parsedHtml = cheerio.load(html);
+    const firstStep = parsedHtml(`li:contains("${ words[0] }")`);
     const stepsContainer = firstStep.parent();
   
     stepsContainer.empty();
     textSteps.forEach(step => stepsContainer.append(`<li>${ step }</li>`));
   
-    return stepsContainer;
+    return { stepsContainer, newHtml: parsedHtml.html() };
   }
 }
