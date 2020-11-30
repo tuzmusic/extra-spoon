@@ -81,6 +81,7 @@ After taking the HTML-only route, I realized that we in fact have to do both! It
 
 I've updated the code to replace this JSON. But of course each webpage is different. 
 Does it work?
-[X] https://www.melskitchencafe.com/the-best-fudgy-brownies/
-[X] https://cooking.nytimes.com/recipes/1020596-vegetarian-mushroom-wellington (whoo hoo!!)
-[ ] NO!!! https://www.gimmesomeoven.com/best-chicken-enchiladas-ever/#tasty-recipes-59596  
+
+- [X] https://www.melskitchencafe.com/the-best-fudgy-brownies/
+- [X] https://cooking.nytimes.com/recipes/1020596-vegetarian-mushroom-wellington (whoo hoo!!)
+- [ ] NO!!! https://www.gimmesomeoven.com/best-chicken-enchiladas-ever/#tasty-recipes-59596  
