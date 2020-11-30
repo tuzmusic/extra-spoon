@@ -1,5 +1,4 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { apiKey } from '../secrets';
 import fs from 'fs';
 import brownies from '../test/fixtures/brownies';
 import { RecipeJson } from './recipe.types';
@@ -55,7 +54,7 @@ export default class SpoontacularParser {
       url: 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/extract',
       params: { url },
       headers: {
-        'x-rapidapi-key': apiKey,
+        'x-rapidapi-key': process.env.RAPID_API_KEY,
         'x-rapidapi-host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
       }
     };
