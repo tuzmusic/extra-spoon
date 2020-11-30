@@ -9,12 +9,16 @@
     ```
     $ node ./dist/server.js
     ```
+   
+   TODO: add instructions for supplying and API key in a `secrets.ts` file. (i.e., running the server locally won't actually work because I've gitignored the api key. Try the deployed version at `https://extra-spoon.herokuapp.com/?url=YOUR_URL` to see it in action.)
 2. In a browser, visit localhost:8081/?url=URL_OF_YOUR_RECIPE;
    
    For example: http://localhost:8081/?url=http://www.melskitchencafe.com/the-best-fudgy-brownies/
 3. The server a version of the page with the instructions split by sentence.
 
-Once this app is hosted online, this page should be ready to send to AnyList or your favorite recipe app. 
+This splits the steps when they appear in the HTML, and has been tested on...exactly one page.
+
+On that page, at least, the recipe is represented as a JSON object within a script tag in the HTML, and it appears that *that* is where AnyList parses from! This begs much further investigation!  
 
 
 ## About
