@@ -246,7 +246,8 @@ export default {
     'pairingText': '',
     'productMatches': []
   },
-  'instructions': 'Position a rack in the lower third of the oven and preheat the oven to 325°F. Line the bottom and sides of an 8×8-inch square baking pan with parchment paper or foil, leaving an overhang on two opposite sides. Lightly grease with cooking spray and set aside.Combine the butter, sugar, cocoa, and salt in a medium microwave-wafe bowl. Microwave for one minute intervals, stirring in between, until the butter is melted and the mixture is smooth. Set the mixture aside until it cools slightly (is warm to the touch not hot). It will look gritty but it will become smooth once the other ingredients are added.Stir in the vanilla with a wooden spoon or rubber spatula. Add the eggs one at a time, stirring vigorously after each one. When the batter looks thick, shiny, and well blended, add the flour and stir until you cannot see it any longer, then beat vigorously for 40 strokes with the wooden spoon or a rubber spatula. Spread evenly in the lined pan.Bake until a toothpick inserted into the center emerges slightly moist with batter, 20 to 25 minutes. Let cool completely on a rack. After the brownies are cooled completely, I like to throw the pan in the refrigerator - cold brownies cut much easier and taste heavenly. Lift up the ends of the parchment or foil liner, and transfer the brownies to a cutting board. Cut into squares and serve.',
+  'instructions': 'Position a rack in the lower third of the oven and preheat the oven to 325°F. Line the bottom and' +
+    ' sides of an 8×8-inch square baking pan with parchment paper or foil, leaving an overhang on two opposite sides. Lightly grease with cooking spray and set aside.Combine the butter, sugar, cocoa, and salt in a medium microwave-safe bowl. Microwave for one minute intervals, stirring in between, until the butter is melted and the mixture is smooth. Set the mixture aside until it cools slightly (is warm to the touch not hot). It will look gritty but it will become smooth once the other ingredients are added.Stir in the vanilla with a wooden spoon or rubber spatula. Add the eggs one at a time, stirring vigorously after each one. When the batter looks thick, shiny, and well blended, add the flour and stir until you cannot see it any longer, then beat vigorously for 40 strokes with the wooden spoon or a rubber spatula. Spread evenly in the lined pan.Bake until a toothpick inserted into the center emerges slightly moist with batter, 20 to 25 minutes. Let cool completely on a rack. After the brownies are cooled completely, I like to throw the pan in the refrigerator - cold brownies cut much easier and taste heavenly. Lift up the ends of the parchment or foil liner, and transfer the brownies to a cutting board. Cut into squares and serve.',
   'analyzedInstructions': [
     {
       'name': '',
@@ -284,7 +285,8 @@ export default {
         },
         {
           'number': 2,
-          'step': 'Combine the butter, sugar, cocoa, and salt in a medium microwave-wafe bowl. Microwave for one minute intervals, stirring in between, until the butter is melted and the mixture is smooth. Set the mixture aside until it cools slightly (is warm to the touch not hot). It will look gritty but it will become smooth once the other ingredients are added.Stir in the vanilla with a wooden spoon or rubber spatula.',
+          'step': 'Combine the butter, sugar, cocoa, and salt in a medium microwave-safe bowl. Microwave for one' +
+            ' minute intervals, stirring in between, until the butter is melted and the mixture is smooth. Set the mixture aside until it cools slightly (is warm to the touch not hot). It will look gritty but it will become smooth once the other ingredients are added.Stir in the vanilla with a wooden spoon or rubber spatula.',
           'ingredients': [
             {
               'id': 2050,

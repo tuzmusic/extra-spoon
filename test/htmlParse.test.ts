@@ -10,8 +10,10 @@ const checkParsedArray = (step: string, expected: string[]) => {
 };
 
 describe('HTML Parsing', () => {
-  describe('Parser.replaceInstructions', () => {
+  describe('Parser.replaceHtmlInstructions', () => {
+    
     let parser: SpoontacularParser;
+    
     it('Actually modifies the stored parsed html', () => {
       parser = SpoontacularParser.createMock().parser;
       parser.replaceInstructions();
@@ -42,8 +44,8 @@ describe('HTML Parsing', () => {
       // Provide the first step in the detailed instructions,
       // which is used by the replaceSteps function.
       mockRecipe.analyzedInstructions[0].steps[0].step = 'One step.';
-      
-      stepsContainer = ParserHelper.replaceSteps(mockHtml, mockRecipe).stepsContainer;
+  
+      stepsContainer = ParserHelper.replaceHtmlSteps(mockHtml, mockRecipe).stepsContainer;
     });
   
     it('Returns the original steps as an array of the correct length', () => {

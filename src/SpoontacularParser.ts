@@ -66,8 +66,8 @@ export default class SpoontacularParser {
   }
   
   public replaceInstructions() {
-    const { newHtml } = ParserHelper.replaceSteps(this.html, this.originalJson);
-    this.html = newHtml;
+    this.html = ParserHelper.replaceHtmlSteps(this.html, this.originalJson).newHtml;
+    this.html = ParserHelper.replaceJsonSteps(this.html, this.originalJson).newHtml;
   }
   
   public getHtml() { return this.html; }

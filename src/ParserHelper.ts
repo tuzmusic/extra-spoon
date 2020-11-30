@@ -1,4 +1,4 @@
-import { RecipeJson } from './recipe.types';
+import { InstructionSchema, RecipeJson, RecipeSchema } from './recipe.types';
 import cheerio from 'cheerio';
 
 export default class ParserHelper {
@@ -31,7 +31,7 @@ export default class ParserHelper {
    * @param recipe
    * @return The list's parent element, containing the new steps.
    */
-  static replaceSteps(html: string, recipe: RecipeJson): {
+  static replaceHtmlSteps(html: string, recipe: RecipeJson): {
     stepsContainer: cheerio.Cheerio; // useful for testing or whatever
     newHtml: string;
   } {
@@ -39,7 +39,7 @@ export default class ParserHelper {
     // In our initial test recipe (brownies) the split isn't perfect enough,
     // so we'll do our own splits.
     const textSteps = this.splitIntoSentences(recipe.instructions);
-  
+    
     // Find the HTML element that contains the steps.
     // We'll replace its contents with our split steps.
     const jsonSteps = recipe.analyzedInstructions[0].steps;
@@ -53,10 +53,54 @@ export default class ParserHelper {
     const parsedHtml = cheerio.load(html);
     const firstStep = parsedHtml(`li:contains("${ words[0] }")`);
     const stepsContainer = firstStep.parent();
-  
+    
     stepsContainer.empty();
     textSteps.forEach(step => stepsContainer.append(`<li>${ step }</li>`));
-  
+    
     return { stepsContainer, newHtml: parsedHtml.html() };
   }
+  
+  static replaceJsonSteps(html: string, recipe: RecipeJson): {
+    newHtml: string;
+  } {
+    // create schema objects for each step
+    // yeah, it's "wrong" to do this twice separately but whatever.
+    const textSteps = this.splitIntoSentences(recipe.instructions);
+    
+    const schemaSteps: InstructionSchema[] = textSteps.map((text, i) => ({
+      '@type': 'HowToStep',
+      text,
+      position: i + 1, // one-indexed
+      // name -- is it actually necessary?
+      // url -- is it actually necessary?
+    }));
+    
+    // place them in the html
+    const parsedHtml = cheerio.load(html);
+    
+    // get any script tags
+    const scriptTags = parsedHtml('script[type="application/ld+json"]');
+    // find the right one
+    let scriptData: RecipeSchema;
+    const scriptTag = scriptTags.filter((i, tag) => {
+      const json = JSON.parse(tag.firstChild.data);
+      if (json['@type'] === 'Recipe') {
+        scriptData = json;
+        return true;
+      }
+      return false;
+    });
+    
+    // if we couldn't find it, return the original html unchanged
+    if (!scriptData) return { newHtml: html };
+    
+    scriptData.recipeInstructions = schemaSteps;
+    scriptTag.empty();
+    scriptTag.append(JSON.stringify(scriptData));
+    // return { newHtml: 'html' };
+    return { newHtml: parsedHtml.html() };
+  }
+  
+  // \"text\": \"Combine the butter, sugar, cocoa, and salt in a medium microwave-safe bowl.\"
+  // \"text\":\"Combine the butter, sugar, cocoa, and salt in a medium microwave-safe bowl.\"
 }
