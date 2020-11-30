@@ -3,6 +3,22 @@
 
 ---
 
+## Instructions
+
+1. Run the server
+    ```
+    $ node ./dist/server.js
+    ```
+2. In a browser, visit localhost:8081/?url=URL_OF_YOUR_RECIPE;
+   
+   For example: http://localhost:8081/?url=http://www.melskitchencafe.com/the-best-fudgy-brownies/
+3. The server a version of the page with the instructions split by sentence.
+
+Once this app is hosted online, this page should be ready to send to AnyList or your favorite recipe app. 
+
+
+## About
+
 Spoonacular's `GET /recipes/extract` endpoint is a great resource for parsing an online recipe. I've been working on a recipe reader app myself, but until that's done I love AnyList, whose Chrome extension makes it super easy to import a recipe from a website in just two clicks. I suspect that they use the Spoonacular API under the hood.
 
 One thing I'd like to add to the API is a way to make recipe instructions more granular. In a written recipe, a single numbered step might include many many actions, and when you have an app that focuses on the current step, this feature's utility is greatly reduced if you then have to focus yourself on a step within the step!
@@ -15,7 +31,7 @@ recipe website --> spoontacular --> anylist
 
 ## Tasks
 - [X] Split recipe steps by sentences 
-- [ ] Output a resource that can be fed back into the Spoonacular API to be reparsed. This probably means posting an HTML page.
+- [X] Output a resource that can be fed back into the Spoonacular API to be reparsed. This probably means posting an HTML page.
 - [ ] Create a modified Chrome extension that feeds a website through our middleware and then submits the result to the AnyList extension. 
 - [ ] Consider further splits
     - All commas
