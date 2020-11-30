@@ -4,21 +4,32 @@
 ---
 
 ## Instructions
-
+<!-- In the markdown, numbering each as 1 allows us to not worry about actual ordering. The numbers will display correctly. -->
+1. Create an account at RapidAPI.com (you can log in with Github) and get a RapidAPI key.
+1. Create a `.env` file at the root of the project and add your api key:
+    ```
+    # .env
+    RAPID_API_KEY=your-rapid-api-key
+    ``` 
 1. Run the server
     ```
     $ node ./dist/server.js
     ```
    
-   TODO: add instructions for supplying and API key in a `secrets.ts` file. (i.e., running the server locally won't actually work because I've gitignored the api key. Try the deployed version at `https://extra-spoon.herokuapp.com/?url=YOUR_URL` to see it in action.)
-2. In a browser, visit localhost:8081/?url=URL_OF_YOUR_RECIPE;
+1. In a browser, visit localhost:8081/?url=YOUR_RECIPE_URL
    
    For example: http://localhost:8081/?url=http://www.melskitchencafe.com/the-best-fudgy-brownies/
-3. The server a version of the page with the instructions split by sentence.
+   
+1. The server a version of the page with the instructions split by sentence. 
 
-This splits the steps when they appear in the HTML, and has been tested on...exactly one page.
+For example, this:
+1. Crack eggs. Mix eggs. 
+2. Cook eggs.
 
-On that page, at least, the recipe is represented as a JSON object within a script tag in the HTML, and it appears that *that* is where AnyList parses from! This begs much further investigation!  
+Becomes this:
+1. Crack eggs.
+2. Mix eggs.
+3. Cook eggs.
 
 
 ## About
@@ -59,4 +70,13 @@ Initially, the first approach seems wisest, because we have to end up with HTML 
 
 But there may be other things we want to do. For instance, my in-progress app (or, rather, its even more in-progress backend) also takes the timers from the Spoonacular output (which AnyList ignores). However! If we're just feeding it back to HTML, we're not actually adding any information that Spoonacular doesn't already get (in the case of timers) -- that is, we're not changing the actual HTML.
 
-Maybe we'll go with the HTML route first anyway. Just for fun, I guess.     
+After taking the HTML-only route, I realized that we in fact have to do both! It seems that AnyList doesn't get the recipe from the HTML, but rather from a script on the page that begins with:
+```html
+<script type="application/ld+json">{
+    "@context": "http:\/\/schema.org",
+    "@type": "Recipe",
+    ...
+</script>
+```
+
+Our next step will be to update the steps there as well!
