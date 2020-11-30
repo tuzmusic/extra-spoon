@@ -21,4 +21,4 @@ console.log('You\'ll get a version of the page with the instructions split by se
 //  Unless... if this server is hosted online, AnyList may be able to grab it there!
 //  console.log('You can feed this page to AnyList or whatever recipe app you\'d like.');
 console.log('Happy cooking! :)');
-app.listen('8081');
+app.listen(process.env.PORT || 8081);
