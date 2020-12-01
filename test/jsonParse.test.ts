@@ -22,6 +22,8 @@ describe('JSON parsing', () => {
     const html = scriptTag.html();
     
     it('Replaces the steps', () => {
+      // sanity check for line breaks
+      expect(html).toContain('"recipeInstructions":[{"@type"');
       expect(html).not.toContain(
         '"text":"Combine the butter, sugar, cocoa, and salt in a medium microwave-safe bowl. Microwave'
       );
@@ -34,3 +36,9 @@ describe('JSON parsing', () => {
     });
   });
 });
+
+/*
+*
+*
+*
+* */

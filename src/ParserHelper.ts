@@ -1,5 +1,7 @@
-import { InstructionSchema, RecipeJson, RecipeSchema } from './recipe.types';
+import { InstructionSchema, RecipeJson } from './recipe.types';
 import cheerio from 'cheerio';
+import * as fs from 'fs';
+import * as path from 'path';
 
 export default class ParserHelper {
   static splitIntoSentences(str: string): string[] {
@@ -66,7 +68,7 @@ export default class ParserHelper {
     // create schema objects for each step
     // yeah, it's "wrong" to do this twice separately but whatever.
     const textSteps = this.splitIntoSentences(recipe.instructions);
-    
+  
     const schemaSteps: InstructionSchema[] = textSteps.map((text, i) => ({
       '@type': 'HowToStep',
       text,
@@ -74,33 +76,17 @@ export default class ParserHelper {
       // name -- is it actually necessary?
       // url -- is it actually necessary?
     }));
-    
-    // place them in the html
-    const parsedHtml = cheerio.load(html);
-    
-    // get any script tags
-    const scriptTags = parsedHtml('script[type="application/ld+json"]');
-    // find the right one
-    let scriptData: RecipeSchema;
-    const scriptTag = scriptTags.filter((i, tag) => {
-      const json = JSON.parse(tag.firstChild.data);
-      if (json['@type'] === 'Recipe') {
-        scriptData = json;
-        return true;
-      }
-      return false;
-    });
-    
-    // if we couldn't find it, return the original html unchanged
-    if (!scriptData) return { newHtml: html };
-    
-    scriptData.recipeInstructions = schemaSteps;
-    scriptTag.empty();
-    scriptTag.append(JSON.stringify(scriptData));
-    // return { newHtml: 'html' };
-    return { newHtml: parsedHtml.html() };
-  }
   
-  // \"text\": \"Combine the butter, sugar, cocoa, and salt in a medium microwave-safe bowl.\"
-  // \"text\":\"Combine the butter, sugar, cocoa, and salt in a medium microwave-safe bowl.\"
+    const stepsString = JSON.stringify(schemaSteps)//, null, 4);
+  
+    const instructionsRegex = new RegExp(/"recipeInstructions":\s*\[[\s\S\n]*?]/gm);
+    const newHtml = html.replace(instructionsRegex, `"recipeInstructions":${ stepsString }`);
+  
+    // for testing/diagnostics
+    const thePath = path.join(__dirname, 'output');
+    fs.writeFileSync(path.join(thePath, 'original.html'), html);
+    fs.writeFileSync(path.join(thePath, 'modified.html'), newHtml);
+  
+    return { newHtml };
+  }
 }
