@@ -2,6 +2,7 @@ import express, { Request } from 'express';
 
 import cors from 'cors';
 import SpoontacularParser from './SpoontacularParser';
+import {postPage} from "./postHtml";
 
 const app = express();
 app.use(cors());
@@ -11,7 +12,10 @@ app.get('/', async (req: Request<{}, {}, {}, { url: string }>, res) => {
   console.warn('Parsing recipe at URL', url);
   const parser = await SpoontacularParser.create(url);
   parser.replaceInstructions();
-  res.send(parser.getHtml());
+
+  await postPage(parser.getHtml(), url)
+
+  res.send(parser.getHtml()); // TODO: if we're posting the page online, we should redirect to it.
 });
 
 console.log('\n****** extra-spoon server is running! ******\n');
